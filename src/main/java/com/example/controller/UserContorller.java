@@ -68,8 +68,9 @@ public class UserContorller {
         if (u == null){
             return "index";
         }else {
+            int integral = userMapper.findintegral(u.getId());
             model.addAttribute("username",u.getName());
-            model.addAttribute("integral",u.getIntegral());
+            model.addAttribute("integral",integral);
             return "personalcenter";
         }
 
@@ -104,7 +105,7 @@ public class UserContorller {
             if (((d.getTime()-time.getTime())/(1000 * 60 * 60))<48) {//判断是否是连续签到
             userMapper.addcon_sign(con_sign + 1, u.getId());
             if (con_sign < 4) {
-                userMapper.addintegral(score + (5 * con_sign), u.getId());
+                userMapper.addintegral(score + (5 * (con_sign+1)), u.getId());
                 int integral = userMapper.findintegral(u.getId());
                 userMapper.sign_time(sdf.format(d), u.getId());
                 model.addAttribute("username", u.getName());
